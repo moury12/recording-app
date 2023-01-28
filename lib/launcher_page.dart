@@ -1,14 +1,13 @@
 
-
-import 'dart:io';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:recoding_flutter_app/dashboard_page.dart';
 import 'package:recoding_flutter_app/login_page.dart';
-import 'package:video_player/video_player.dart';
+import 'package:recoding_flutter_app/text_page.dart';
+import 'package:recoding_flutter_app/video_page.dart';
 
-import 'audio_model.dart';
+import 'Auth.dart';
+import 'audio_page.dart';
+
 
 
 class LauncherPage extends StatefulWidget {
@@ -20,55 +19,52 @@ class LauncherPage extends StatefulWidget {
 }
 
 class _LauncherPageState extends State<LauncherPage> {
-   late VideoPlayerController _controller;
-
+  final _txtController = TextEditingController();
   String videoLink='';
-
-
-@override
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-      body:Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(children: [FloatingActionButton(onPressed:() {
-          _startvideoRecording(ImageSource.camera);
-        },child: Icon(Icons.video_call),),
-
-          ElevatedButton(onPressed: (){Navigator.pushNamed(context, DashboardPage.routeName);}, child: Text('='))
-        ],),
-      )
-    );
-  }
-
-   Future<void> getvideo() async{
-     final File file =File(videoLink);
-     if(videoLink!=null){
-       _controller == VideoPlayerController.file(file);
-       await _controller.initialize();
-       await _controller.setLooping(true);
-       await _controller.play();
-       super.initState();
-     }
-
-
-
-}
-
-  void _startvideoRecording(ImageSource camera) async{
-    final pickedVideo=await ImagePicker().pickVideo(source: ImageSource.camera);
-    if(pickedVideo!=null){
-      setState(() {
-        videoLink=pickedVideo.path;
-      });
-    }
-  }
-
-@override
+  @override
   void dispose() {
-    _controller.dispose();
-    // TODO: implement dispose
+    _txtController.dispose();
     super.dispose();
   }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Dashboard'),
+        actions: [IconButton(onPressed: (){  AuthService.logout().then((value) => Navigator.pushReplacementNamed(context, LoginPage.routeName));}, icon: Icon(Icons.logout))],
 
+      ),body: Center(
+        child: Column(mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [ Padding(
+          padding: const EdgeInsets.all(18.0),
+          child:SizedBox(height: 100,width: 100,
+            child: FittedBox(child: FloatingActionButton(heroTag: 'btn1',
+              onPressed: (){ Navigator.pushNamed(context, VideoPage.routeName);},
+              child:Icon(Icons.video_call, size:30,color: Colors.white,),  )),
+          ),
+        ),
+
+          Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: SizedBox(height: 100,width: 100,
+              child: FittedBox(child: FloatingActionButton(heroTag: 'btn2',
+                  onPressed: (){Navigator.pushNamed(context, AudioPage.routeName);},
+                  child:Icon(Icons.spatial_audio, size:30,color: Colors.white) )),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: SizedBox(height: 100,width: 100,
+              child: FittedBox(child: FloatingActionButton(heroTag: 'btn3',
+                  onPressed:  (){Navigator.pushNamed(context,New.routeName);},
+                  child:Icon(Icons.note_add, size:30,color: Colors.white) )),
+            ),
+          ),
+        ],
+    ),
+      ),
+    );}
 }
+
+

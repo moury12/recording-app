@@ -5,13 +5,12 @@ const String userFieldId = 'userid';
 const String userFieldCreationTime = 'CreationTime';
 const String userFieldPhone = 'phone';
 class UserModel {
-  String? userId;
-
+  String userId;
   String phone;
   Timestamp? userCreationTime;
 
   UserModel(
-      { this.userId,
+      { required this.userId,
         this.userCreationTime,
         required this.phone,
       });

@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recoding_flutter_app/audio_page.dart';
 import 'package:recoding_flutter_app/login_page.dart';
-import 'package:recoding_flutter_app/new.dart';
-import 'package:recoding_flutter_app/otp_page.dart';
+import 'package:recoding_flutter_app/text_page.dart';
 import 'package:recoding_flutter_app/provider.dart';
 import 'package:recoding_flutter_app/video_page.dart';
-
-import 'dashboard_page.dart';
 import 'launcher_page.dart';
 
 void main() async {
@@ -27,17 +24,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lime,
       ),
     initialRoute: LauncherPage.routeName,
     routes: {
     LauncherPage.routeName:(_)=>const LauncherPage(),
-        DashboardPage.routeName:(_)=>const DashboardPage(),
         LoginPage.routeName:(_)=>const LoginPage(),
-        OtpPage.routeName:(_)=>const OtpPage(),
         New.routeName:(_)=>const New(),
         VideoPage.routeName:(_)=>const VideoPage(),
        AudioPage.routeName:(_)=>const AudioPage(),

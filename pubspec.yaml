@@ -42,10 +42,13 @@ dependencies:
   firebase_storage: ^11.0.3
   provider: ^6.0.4
   flutter_sound:
+  intl: ^0.18.0
+  intl_phone_field: ^3.1.0
   image_picker: ^0.8.6+1
   video_player: ^2.5.1
-  pinput: ^2.2.21
+  pin_code_fields: ^7.4.0
   permission_handler: ^9.2.0
+  flutter_cache_manager: ^3.3.0
 
 dev_dependencies:
   flutter_test:
