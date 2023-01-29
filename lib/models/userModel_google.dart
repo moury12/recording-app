@@ -8,17 +8,17 @@ const String userFieldCreationTimeg = 'CreationTime';
 const String userFieldemailg = 'email';
 
 class GoogleUserModel {
-  String name;
-  String userId;
-  String email;
+  String? name;
+  String? userId;
+  String? email;
   Timestamp? userCreationTime;
 
   GoogleUserModel({
-    required this.userId,
-    required this.name,
+   this.userId,
+     this.name,
     this.userCreationTime,
 
-    required this.email,
+   this.email,
   });
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recoding_flutter_app/launcher_page.dart';
-
-import 'Auth.dart';
+import '../auth/Auth.dart';
+import 'launcher_page.dart';
 import 'login_page.dart';
 
 class Dash extends StatelessWidget {
@@ -18,6 +17,10 @@ class Dash extends StatelessWidget {
         Navigator.pushReplacementNamed(context, LoginPage.routeName);
       }
     });
-    return const Placeholder();
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
   }
 }

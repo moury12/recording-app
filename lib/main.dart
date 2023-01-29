@@ -1,15 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recoding_flutter_app/audio_page.dart';
-import 'package:recoding_flutter_app/login_page.dart';
-import 'package:recoding_flutter_app/profile.dart';
-import 'package:recoding_flutter_app/text_page.dart';
+import 'package:recoding_flutter_app/page/dashboard.dart';
+
 import 'package:recoding_flutter_app/provider.dart';
-import 'package:recoding_flutter_app/userProfilePhone.dart';
-import 'package:recoding_flutter_app/video_page.dart';
-import 'dashboard.dart';
-import 'launcher_page.dart';
+
+import 'page/text_page.dart';
+import 'page/audio_page.dart';
+import 'page/launcher_page.dart';
+import 'page/login_page.dart';
+import 'page/profile.dart';
+import 'page/video_page.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Recording App',
       theme: ThemeData(
         
         primarySwatch: Colors.lime,
@@ -39,7 +41,6 @@ class MyApp extends StatelessWidget {
       Dash.routeName:(_)=>const Dash(),
     LauncherPage.routeName:(_)=>const LauncherPage(),
     UserPage.routeName:(_)=>const UserPage(),
-    UserPhonePage.routeName:(_)=>const UserPhonePage(),
         LoginPage.routeName:(_)=>const LoginPage(),
         New.routeName:(_)=>const New(),
         VideoPage.routeName:(_)=>const VideoPage(),

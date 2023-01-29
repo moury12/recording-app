@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recoding_flutter_app/helper_function.dart';
 import 'package:recoding_flutter_app/provider.dart';
-import 'package:recoding_flutter_app/text_model.dart';
-import 'package:recoding_flutter_app/userModel_google.dart';
-import 'package:recoding_flutter_app/user_model.dart';
 
+import '../models/text_model.dart';
+import '../models/userModel_google.dart';
+import '../models/user_model.dart';
 import 'launcher_page.dart';
 
 class New extends StatefulWidget {
@@ -69,7 +69,9 @@ return;
   }
   else{
     try{
-      final notes=TextModel(textId: generateNoteId, user:  GoogleUserModel(userId: contentProvider.googleUserModel!.userId, name: contentProvider.googleUserModel!.name, email: contentProvider.googleUserModel!.email), textLink: _txtController.text,textCreationTime: Timestamp.fromDate(DateTime.now()));
+      final notes=TextModel(textId: generateNoteId, user:  GoogleUserModel(userId:contentProvider.googleUserModel==null?null : contentProvider.googleUserModel!.userId,
+          name:contentProvider.googleUserModel==null?null : contentProvider.googleUserModel!.name,
+          email:contentProvider.googleUserModel==null?null : contentProvider.googleUserModel!.email), textLink: _txtController.text,textCreationTime: Timestamp.fromDate(DateTime.now()));
     await contentProvider.addNote(notes);
 _txtController.clear();
 showMsg(context, "Your Text saved");

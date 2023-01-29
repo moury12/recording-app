@@ -5,12 +5,10 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:recoding_flutter_app/helper_function.dart';
-import 'package:recoding_flutter_app/launcher_page.dart';
 import 'package:recoding_flutter_app/provider.dart';
-import 'package:recoding_flutter_app/userModel_google.dart';
-import 'package:recoding_flutter_app/user_model.dart';
-
-import 'Auth.dart';
+import '../auth/Auth.dart';
+import '../models/userModel_google.dart';
+import '../models/user_model.dart';
 import 'dashboard.dart';
 
 class LoginPage extends StatefulWidget {
@@ -32,23 +30,28 @@ class _LoginPageState extends State<LoginPage> {
   static final auth=FirebaseAuth.instance;
   static User? get currentUser=>auth.currentUser;
   Future<void> verifyPhone(String number) async{
-    auth.verifyPhoneNumber(phoneNumber: number,
-        timeout: Duration(seconds: 35),
-        verificationCompleted: (PhoneAuthCredential credential){
-          showMsg(context, "AUth Completed");
-        },
-        verificationFailed: (FirebaseAuthException e){
-          showMsg(context, 'Auth failed');
-        },
-        codeSent: (String verificationId,int? resendToken){
-          showMsg(context, 'Otp Sent');
-          verId =verificationId;
-          setState(() {
-            screenState=1;
-          });
-        }, codeAutoRetrievalTimeout: (String verificationId){
-          showMsg(context, 'Timeout');
-        });
+   try{
+     auth.verifyPhoneNumber(phoneNumber: number,
+         timeout: Duration(seconds: 35),
+         verificationCompleted: (PhoneAuthCredential credential){
+           showMsg(context, "AUth Completed");
+         },
+         verificationFailed: (FirebaseAuthException e){
+           showMsg(context, 'Auth failed');
+         },
+         codeSent: (String verificationId,int? resendToken){
+           showMsg(context, 'Otp Sent');
+           verId =verificationId;
+           setState(() {
+             screenState=1;
+           });
+         }, codeAutoRetrievalTimeout: (String verificationId){
+           showMsg(context, 'Timeout');
+         });
+   }on FirebaseAuthException  catch(error){
+
+     showMsg(context, error.toString());
+   }
   }
   Future<void> verifyOtp()async{
     auth.signInWithCredential(PhoneAuthProvider.credential(verificationId: verId, smsCode: otpPin)
@@ -83,9 +86,9 @@ class _LoginPageState extends State<LoginPage> {
         if(mounted){
           Navigator.pushReplacementNamed(context, Dash.routeName);
         }
-      }   catch(error){
+      } on FirebaseAuthException  catch(error){
 
-        rethrow;
+        showMsg(context, error.toString());
       }
     }
 
@@ -118,21 +121,18 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 screenState==0?stateRegister():otpPart(),
-SizedBox(height: 40,),
-                FloatingActionButton.extended( icon:
-                  Image.asset('assets/j.png',height: 27,width: 27,),
 
-
-
-        onPressed: _signInWithGoogle, label: Text('Sign In with Google'),
-    )
               ]),
         ),
       ),
     );}
   Widget stateRegister(){
     return Column(
-      children: [Text('phone verfication'),
+      children: [
+        Text('phone verfication',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+        Divider(),
+        Text('Please Provide your Country Code!',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 10,color: Colors.red),),
+
         TextField(
           controller: _phoneController,
           keyboardType: TextInputType.phone,
@@ -141,7 +141,7 @@ SizedBox(height: 40,),
             hintText: 'Phone No:',
             suffixIcon: Icon(Icons.call)
           ),
-        ),
+        ),SizedBox(height: 20,),
         ElevatedButton(onPressed: (){
           if(screenState==0){
             if(_phoneController.text.isEmpty){
@@ -154,7 +154,15 @@ SizedBox(height: 40,),
           else{
             Text('null');
           }
-        }, child: Text('Send the code'))],
+        }, child: Text('Send the code'),),
+            SizedBox(height: 40,),
+            FloatingActionButton.extended( icon:
+            Image.asset('assets/j.png',height: 27,width: 27,),
+
+
+
+              onPressed: _signInWithGoogle, label: Text('Sign In with Google'),
+            )],
     );
   }
   Widget otpPart(){
@@ -173,7 +181,7 @@ SizedBox(height: 40,),
         });print(otpPin);
         },
           pinTheme: PinTheme(
-              activeColor: Colors.white70,
+              activeColor: Colors.lime,
               selectedColor: Colors.blueGrey,
               inactiveColor: Colors.black
           ),

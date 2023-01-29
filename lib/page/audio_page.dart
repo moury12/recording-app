@@ -9,11 +9,12 @@ import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:recoding_flutter_app/audio_model.dart';
 import 'package:recoding_flutter_app/helper_function.dart';
-import 'package:recoding_flutter_app/launcher_page.dart';
 import 'package:recoding_flutter_app/provider.dart';
-import 'package:recoding_flutter_app/userModel_google.dart';
+
+import '../models/audio_model.dart';
+import '../models/userModel_google.dart';
+import 'launcher_page.dart';
 
 class AudioPage extends StatefulWidget {
   static const String routeName ='/audio';
@@ -98,11 +99,11 @@ void didChangeDependencies() {
                         final file = await File(audio!);
                         await file.delete();
                         audio=null;
-                        showMsg(context, 'video deleted');
+                        showMsg(context, 'audio deleted');
                         Navigator.pushNamed(context, LauncherPage.routeName);
 
                       }else{
-                        showMsg(context, 'there is no video');
+                        showMsg(context, 'there is no audio');
                       }
                    }
                         , child: Text('delete')),
@@ -143,8 +144,8 @@ audio=audioFile.path;
     else{
 
      final audios= AudioModel(audioId: generateAudioId,
-       user:  GoogleUserModel(userId: contentProvider.googleUserModel!.userId,
-           name: contentProvider.googleUserModel!.name, email: contentProvider.googleUserModel!.email),
+       user:  GoogleUserModel(userId:contentProvider.googleUserModel==null?null : contentProvider.googleUserModel!.userId ,
+           name:contentProvider.googleUserModel==null?null : contentProvider.googleUserModel!.name, email: contentProvider.googleUserModel==null?null :contentProvider.googleUserModel!.email ),
        audioLink: audio!,audioCreationTime: Timestamp.fromDate(DateTime.now()),
           );
       try{

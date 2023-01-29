@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:recoding_flutter_app/userModel_google.dart';
-import 'package:recoding_flutter_app/user_model.dart';
+
+import 'userModel_google.dart';
+
 
 const String collectionVideo = 'video';
 const String videoFieldUserModel = 'userModel';

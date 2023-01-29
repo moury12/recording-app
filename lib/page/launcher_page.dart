@@ -2,15 +2,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recoding_flutter_app/login_page.dart';
-import 'package:recoding_flutter_app/profile.dart';
-import 'package:recoding_flutter_app/provider.dart';
-import 'package:recoding_flutter_app/text_page.dart';
-import 'package:recoding_flutter_app/userProfilePhone.dart';
-import 'package:recoding_flutter_app/video_page.dart';
+import 'package:recoding_flutter_app/page/profile.dart';
+import 'package:recoding_flutter_app/page/text_page.dart';
+import 'package:recoding_flutter_app/page/video_page.dart';
 
-import 'Auth.dart';
+import 'package:recoding_flutter_app/provider.dart';
+
+import '../auth/Auth.dart';
 import 'audio_page.dart';
+import 'login_page.dart';
 
 
 

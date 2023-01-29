@@ -1,18 +1,12 @@
-import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:recoding_flutter_app/audio_model.dart';
-import 'package:recoding_flutter_app/database.dart';
-import 'package:recoding_flutter_app/helper_function.dart';
-import 'package:recoding_flutter_app/text_model.dart';
-import 'package:recoding_flutter_app/userModel_google.dart';
-import 'package:recoding_flutter_app/user_model.dart';
-import 'package:recoding_flutter_app/video_model.dart';
-
-import 'Auth.dart';
-
+import 'auth/Auth.dart';
+import 'models/audio_model.dart';
+import 'models/text_model.dart';
+import 'models/userModel_google.dart';
+import 'models/user_model.dart';
+import 'database.dart';
+import 'models/video_model.dart';
 class ContentProvider extends ChangeNotifier{
  UserModel? userModel;
 GoogleUserModel? googleUserModel;

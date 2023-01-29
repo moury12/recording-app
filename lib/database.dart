@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:recoding_flutter_app/audio_model.dart';
-import 'package:recoding_flutter_app/text_model.dart';
-import 'package:recoding_flutter_app/userModel_google.dart';
-import 'package:recoding_flutter_app/user_model.dart';
-import 'package:recoding_flutter_app/video_model.dart';
+
+import 'models/audio_model.dart';
+import 'models/text_model.dart';
+import 'models/userModel_google.dart';
+import 'models/user_model.dart';
+import 'models/video_model.dart';
 
 class dbHelper{
   static final db =FirebaseFirestore.instance;

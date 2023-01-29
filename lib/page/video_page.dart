@@ -5,10 +5,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:recoding_flutter_app/helper_function.dart';
 import 'package:recoding_flutter_app/provider.dart';
-import 'package:recoding_flutter_app/video_model.dart';
 
+
+import '../models/userModel_google.dart';
+import '../models/video_model.dart';
 import 'launcher_page.dart';
-import 'userModel_google.dart';
+
 class VideoPage extends StatefulWidget {
   static const String routeName ='/video';
   const VideoPage({Key? key}) : super(key: key);
@@ -42,6 +44,7 @@ class _VideoPageState extends State<VideoPage> {
                 child: Center(child: SizedBox(height: 180,width: 180,
                     child: FittedBox(child: FloatingActionButton(onPressed: (){_startvideoRecording(ImageSource.camera);}, child: const Icon(Icons.video_call,size: 50,color: Colors.white))))),
               ),
+videoLink!=null?Text('video uploaded now save it or delete it!'):Text(''),
 Row(crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -53,6 +56,7 @@ Row(crossAxisAlignment: CrossAxisAlignment.center,
                      await file.delete();
                      videoLink=null;
                      showMsg(context, 'video deleted');
+                     Navigator.pushNamed(context, LauncherPage.routeName);
                    }else{
                      showMsg(context, 'there is no video');
                    }
@@ -84,8 +88,8 @@ Row(crossAxisAlignment: CrossAxisAlignment.center,
      try{
 
        final video=VideoModel(videoId: generateVideoId,
-           user:  GoogleUserModel(userId: contentProvider.googleUserModel!.userId,
-               name: contentProvider.googleUserModel!.name, email: contentProvider.googleUserModel!.email),
+           user:  GoogleUserModel(userId:contentProvider.googleUserModel==null?null : contentProvider.googleUserModel!.userId,
+               name: contentProvider.googleUserModel==null?null :contentProvider.googleUserModel!.name, email:contentProvider.googleUserModel==null?null : contentProvider.googleUserModel!.email),
            videoLink: videoLink!, videoCreationTime: Timestamp.fromDate(DateTime.now()));
 contentProvider.addVideo(video);
        videoLink=null;
