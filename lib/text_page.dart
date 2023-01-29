@@ -4,7 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:recoding_flutter_app/helper_function.dart';
 import 'package:recoding_flutter_app/provider.dart';
 import 'package:recoding_flutter_app/text_model.dart';
+import 'package:recoding_flutter_app/userModel_google.dart';
 import 'package:recoding_flutter_app/user_model.dart';
+
+import 'launcher_page.dart';
 
 class New extends StatefulWidget {
   static const String routeName ='/txt';
@@ -16,6 +19,7 @@ class New extends StatefulWidget {
 
 class _NewState extends State<New> {
 late TextModel txtModel;
+late UserModel userModel;
   final _txtController = TextEditingController();
   late ContentProvider contentProvider;
   @override
@@ -65,10 +69,12 @@ return;
   }
   else{
     try{
-      final notes=TextModel(textId: generateNoteId, userModel: UserModel(phone: contentProvider.userModel!.phone,userId: contentProvider.userModel!.userId), textLink: _txtController.text,textCreationTime: Timestamp.fromDate(DateTime.now()));
+      final notes=TextModel(textId: generateNoteId, user:  GoogleUserModel(userId: contentProvider.googleUserModel!.userId, name: contentProvider.googleUserModel!.name, email: contentProvider.googleUserModel!.email), textLink: _txtController.text,textCreationTime: Timestamp.fromDate(DateTime.now()));
     await contentProvider.addNote(notes);
 _txtController.clear();
 showMsg(context, "Your Text saved");
+      Navigator.pushNamed(context, LauncherPage.routeName);
+
     }catch (error) {
 
     Text(error.toString());

@@ -11,7 +11,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:recoding_flutter_app/audio_model.dart';
 import 'package:recoding_flutter_app/helper_function.dart';
+import 'package:recoding_flutter_app/launcher_page.dart';
 import 'package:recoding_flutter_app/provider.dart';
+import 'package:recoding_flutter_app/userModel_google.dart';
 
 class AudioPage extends StatefulWidget {
   static const String routeName ='/audio';
@@ -97,6 +99,8 @@ void didChangeDependencies() {
                         await file.delete();
                         audio=null;
                         showMsg(context, 'video deleted');
+                        Navigator.pushNamed(context, LauncherPage.routeName);
+
                       }else{
                         showMsg(context, 'there is no video');
                       }
@@ -138,12 +142,16 @@ audio=audioFile.path;
     }
     else{
 
-     final audios= AudioModel(audioId: generateAudioId, audioLink: audio!,audioCreationTime: Timestamp.fromDate(DateTime.now()),
+     final audios= AudioModel(audioId: generateAudioId,
+       user:  GoogleUserModel(userId: contentProvider.googleUserModel!.userId,
+           name: contentProvider.googleUserModel!.name, email: contentProvider.googleUserModel!.email),
+       audioLink: audio!,audioCreationTime: Timestamp.fromDate(DateTime.now()),
           );
       try{
         await contentProvider.addAudio(audios);
 audio=null;
         showMsg(context, 'Audio saved');
+        Navigator.pushNamed(context, LauncherPage.routeName);
       }catch (error) {
           print(error.toString());
           rethrow;

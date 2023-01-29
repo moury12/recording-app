@@ -6,7 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:recoding_flutter_app/helper_function.dart';
 import 'package:recoding_flutter_app/provider.dart';
 import 'package:recoding_flutter_app/video_model.dart';
-import 'package:path_provider/path_provider.dart'as pathpro;
+
+import 'launcher_page.dart';
+import 'userModel_google.dart';
 class VideoPage extends StatefulWidget {
   static const String routeName ='/video';
   const VideoPage({Key? key}) : super(key: key);
@@ -78,16 +80,20 @@ Row(crossAxisAlignment: CrossAxisAlignment.center,
      showMsg(context, 'provide a video');
    }
    else{
-     String? videoUrl;
+
      try{
-       await contentProvider.uploadvideo(videoLink!);
-       final video=VideoModel(videoId: generateVideoId,  videoLink: videoLink!, videoCreationTime: Timestamp.fromDate(DateTime.now()));
+
+       final video=VideoModel(videoId: generateVideoId,
+           user:  GoogleUserModel(userId: contentProvider.googleUserModel!.userId,
+               name: contentProvider.googleUserModel!.name, email: contentProvider.googleUserModel!.email),
+           videoLink: videoLink!, videoCreationTime: Timestamp.fromDate(DateTime.now()));
 contentProvider.addVideo(video);
        videoLink=null;
 showMsg(context, 'Video saved');
+       Navigator.pushNamed(context, LauncherPage.routeName);
 
      }catch(error){
-       await contentProvider.deleteVideo(videoUrl);
+
 
      }
    }

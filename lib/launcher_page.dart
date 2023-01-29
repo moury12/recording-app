@@ -1,8 +1,12 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:recoding_flutter_app/login_page.dart';
+import 'package:recoding_flutter_app/profile.dart';
+import 'package:recoding_flutter_app/provider.dart';
 import 'package:recoding_flutter_app/text_page.dart';
+import 'package:recoding_flutter_app/userProfilePhone.dart';
 import 'package:recoding_flutter_app/video_page.dart';
 
 import 'Auth.dart';
@@ -11,7 +15,7 @@ import 'audio_page.dart';
 
 
 class LauncherPage extends StatefulWidget {
-  static const String routeName ='/';
+  static const String routeName ='/launch';
   const LauncherPage({Key? key}) : super(key: key);
 
   @override
@@ -26,12 +30,28 @@ class _LauncherPageState extends State<LauncherPage> {
     _txtController.dispose();
     super.dispose();
   }
+  late ContentProvider contentProvider;
+  @override
+  void didChangeDependencies() {
+    Provider.of<ContentProvider>(context, listen: false).getGUserInfo();
+    contentProvider=Provider.of<ContentProvider>(context, listen: false);
+    super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Row(
+          children: [
+            IconButton(onPressed: (){
+              Navigator.pushNamed(context, UserPage.routeName);
+            },
+            icon: Icon(Icons.person),),
+          ],
+        ),
         title: Text('Dashboard'),
-        actions: [IconButton(onPressed: (){  AuthService.logout().then((value) => Navigator.pushReplacementNamed(context, LoginPage.routeName));}, icon: Icon(Icons.logout))],
+        actions: [IconButton(onPressed: (){  AuthService.logout().then((value) => Navigator.pushReplacementNamed(context, LoginPage.routeName));}, icon: Icon(Icons.logout)),
+         ],
 
       ),body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center,

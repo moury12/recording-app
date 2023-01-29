@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:recoding_flutter_app/audio_model.dart';
 import 'package:recoding_flutter_app/text_model.dart';
+import 'package:recoding_flutter_app/userModel_google.dart';
 import 'package:recoding_flutter_app/user_model.dart';
 import 'package:recoding_flutter_app/video_model.dart';
 
@@ -23,4 +24,23 @@ class dbHelper{
 
   Future<void> addVideo(VideoModel video) async{
     return db.collection(collectionVideo).doc(video.videoId).set(video.toMap());
-  }}
+  }
+
+  static Future<void> addGoogleUser(GoogleUserModel guser) {
+    return db.collection(collectiongoogleUser).doc(guser.userId).set(guser.toMap());
+
+  }
+  static Future<bool> doesUserExist(String uid) async {
+    final snapshot = await db.collection(collectiongoogleUser).doc(uid).get();
+    return snapshot.exists;
+  }
+
+  static Stream<DocumentSnapshot<Map<String, dynamic>>> getGUserInfo(
+      String uid) =>
+      db.collection(collectiongoogleUser).doc(uid).snapshots();
+  static Stream<DocumentSnapshot<Map<String, dynamic>>> getUserInfo(
+      String userId) =>
+      db.collection(collectionUser).doc(userId).snapshots();
+
+
+}

@@ -1,37 +1,30 @@
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-import 'helper_function.dart';
+//final authServiceProvider = Provider( create: (BuildContext context) {return AuthService(
 
-BuildContext? context;
+    //firestore: FirebaseFirestore.instance);  },);
 class AuthService {
-  static UserCredential? userCredential;
-  static final _auth = FirebaseAuth.instance;
-  static User? get currentUser => _auth.currentUser;
-  static Future<UserCredential> verifyPhone(String phone,String verId,int screenState,String otpPin)async{
-    final credential = await _auth.verifyPhoneNumber(
-      phoneNumber: phone,
-        verificationCompleted: (PhoneAuthCredential credential){
-          showMsg(context!, "AUth Completed");
-        },
-        verificationFailed: (FirebaseAuthException e){
-      showMsg(context!, 'Auth failed');
-    },
-        codeSent: (String verificationId,int? resendToken){
-    showMsg(context!, 'Otp Sent');
-    verId =verificationId;
-    },
-        codeAutoRetrievalTimeout: (String verificationId){
-    showMsg(context!, 'Timeout');
-    });
-   return userCredential!;
-  }
-  static Future<UserCredential> verifyOtp(String verId,String otpPin)async{
-   final credential = _auth.signInWithCredential(PhoneAuthProvider.credential(verificationId: verId, smsCode: otpPin)
-
+  static User? get currentUser => auth.currentUser;
+  static final auth = FirebaseAuth.instance;
+static final  firestore=FirebaseFirestore.instance;
+  static Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+    await googleUser?.authentication;
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
     );
-    return credential;}
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
   static Future<void> logout() async {
-    return _auth.signOut();
+    return FirebaseAuth.instance.signOut();
   }
 }
